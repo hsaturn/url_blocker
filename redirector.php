@@ -1,21 +1,65 @@
 #!/usr/bin/env php
 <?php
 
+$cfg_path = realpath(dirname(__FILE__)).'/';
+$forbidden_file = $cfg_path."forbidden.lst";
+$log="/tmp/redirector.log";
+$log = "/var/log/redirector.log";
+
+function addLog($line)
+{
+  global $log;
+  $date = new DateTime();
+  $d=$date->format('y:m:d h:i:s : ');
+	file_put_contents($log, $d . str_replace("\n","", $line) . "\n", FILE_APPEND);
+}
+
+printf("Config Path=%s\n", $cfg_path);
+
 // config
 $config = require(__DIR__ . "/config.php");
 $conf_timeout = $config["time_out"] ?? 86400;
 $conf_redirect = $config["redirect"] ?? [];
 $redirect_map = create_redirect_map($conf_redirect);
 
+$forbidden_time="";
+function readForbidden()
+{
+  global $forbidden_time;
+  global $forbidden_file;
+  global $forbidden;
+	$time = filemtime($forbidden_file);
+  if ($time != $forbidden_time)
+  {
+    $forbidden_time = $time;
+	  $forbidden = file($forbidden_file, FILE_IGNORE_NEW_LINES);
+  }
+}
+
+addLog("Started");
+
 // stdin
 stream_set_timeout(STDIN, $conf_timeout);
 while ( $input = fgets(STDIN) ) {
+   readForbidden();
+   $continue=false;
+   addLog($input);
+   foreach($forbidden as $reject)
+    if (strpos($input, $reject) !== false)
+    {
+        echo "OK status=302 url=127.0.0.1\n";
+				$continue=true;
+        break;
+    }
+    if ($continue) continue;
+
     // parse input
     $parsed = parse_input($input);
-    if($parsed == null){continue;}
+    if($parsed == null){ continue;}
 
     // get redirect url
     $url = get_redirect_map($redirect_map,$parsed['domain'],$parsed['port']);
+    addLog($input . '->' . ' (' . $url . ")", FILE_APPEND);
 
     // output redirect url
     $output = create_response($url, $parsed['url']);
