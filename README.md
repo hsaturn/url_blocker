@@ -1,4 +1,5 @@
 ## Squid Redirector
+Credits goes to https://github.com/sanderiana/squid-url-rewrite-program
 
 https://wiki.squid-cache.org/Features/Redirectors  
 This script is for `url_rewrite_program` directive.   
