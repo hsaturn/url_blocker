@@ -10,7 +10,7 @@ function addLog($line)
 {
   global $log;
   $date = new DateTime();
-  $d=$date->format('y:m:d h:i:s : ');
+  $d=$date->format('Y-m-d H:i:s : ');
 	file_put_contents($log, $d . str_replace("\n","", $line) . "\n", FILE_APPEND);
 }
 
