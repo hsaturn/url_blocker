@@ -1,0 +1,22 @@
+{
+  "policies": {
+    "BlockAboutAddons": true,
+    "BlockAboutConfig": true,
+    "BlockAboutProfiles": true,
+    "BlockAboutSupport": true,
+    "DisableAppUpdate": true,
+    "DisableForgetButton": true,
+    "DisablePrivateBrowsing": true,
+    "DisableProfileImport": true,
+    "DisableSafeMode": true,
+    "Proxy": {
+      "AutoLogin": true,
+      "HTTPProxy": "127.0.0.1:3128",
+      "Mode": "manual",
+      "SOCKSVersion": 4,
+      "UseHTTPProxyForAllProtocols": true,
+      "UseProxyForDNS": false,
+      "Locked" : true
+    }
+  }
+}

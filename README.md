@@ -5,6 +5,7 @@ https://wiki.squid-cache.org/Features/Redirectors
 This script is for `url_rewrite_program` directive.   
 Requirements: `squid-3.4+` `php-7+`
 
+This works with firefox
 
 ### Installation:
 
@@ -40,6 +41,19 @@ squid -k reconfigure
   ['domain' => '127.0.0.1', 'redirect' => '10.0.0.3'],
 ]
 
+# Disable privacy mode for firefox
+It is a good idea to disable private mode for firefox for some
+reason that I won't explain here.
+install policies.json to /usr/lib/firefox/distribution if firefox (not the link) is installed in /usr/lib/firefox
+
+You know that these policies are used if the proxy can't be changed.
+
+TODO if possible
+  - prevent user from edit / clear history
+  - avoid g++ gcc (that would allow to build a browser)
+  - the user must not be able to install anything (nix, snap, apt ...)
+  - rewrite this README
+
 # see Test section
 ```
 
@@ -62,3 +76,4 @@ OK status=302 url="10.0.0.3"
 ### License:
 <div><a href="http://opensource.org/licenses/mit-license.php">MIT</a></div>
 My small candy project.
+
